@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nonogram Online</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Nonogram Online</h1>
+    <label class="name">Имя <input id="name" maxlength="20" autocomplete="off"></label>
+    <span id="status" class="status">Подключение…</span>
+  </header>
+
+  <main class="layout">
+    <section class="game">
+      <h2 id="title"></h2>
+      <div id="board" class="board"></div>
+      <p class="hint">ЛКМ — закрасить, ПКМ — крестик</p>
+      <div id="solved" class="solved" hidden>
+        <p>Картинка собрана!</p>
+        <button id="next" type="button">Следующая головоломка</button>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <h2>Игроки</h2>
+      <ol id="players" class="players"></ol>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+</body>
+</html>
