@@ -2,9 +2,10 @@ import { EMPTY } from './cell.js';
 
 const STORAGE_KEY = 'nonogram-state';
 
+//локальная копия игры и очередь неподтверждённых ходов
 export class GameState {
-  game = null;
-  pending = new Map();
+  game = null; //последнее состояние, присланное сервером
+  pending = new Map(); //ходы, которые игрок сделал, но сервер ещё не подтвердил
 
   static restore() {
     const state = new GameState();
@@ -31,10 +32,11 @@ export class GameState {
     this.save();
   }
 
+  //что показывать в клетке
   valueAt(index) {
     return this.pending.get(index)?.value ?? this.game.cells[index].value;
   }
-
+  
   makeMove(index, tool) {
     if (!this.game || this.game.solved) return null;
 

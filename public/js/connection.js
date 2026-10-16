@@ -1,6 +1,7 @@
 const MIN_DELAY = 1000;
 const MAX_DELAY = 10_000;
 
+//обёртка над браузерным WebSocket, которая сама восстанавливает соединение
 export class Connection {
   #url;
   #ws = null;

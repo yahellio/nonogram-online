@@ -7,9 +7,9 @@ import { loadState, saveState } from './storage.js';
 const PORT = Number(process.env.PORT) || 3000;
 const HEARTBEAT_MS = 30_000;
 
-const game = new Game(await loadState());
-const server = createServer(serveStatic);
-const wss = new WebSocketServer({ server });
+const game = new Game(await loadState()); // восстановить игру из файла
+const server = createServer(serveStatic); // HTTP-сервер для файлов
+const wss = new WebSocketServer({ server }); // WebSocket на том же порту
 
 const sessions = new Map();
 const alive = new WeakSet();
@@ -30,6 +30,7 @@ function broadcastPlayers() {
 }
 
 const handlers = {
+  //игрок вошёл или сменил имя
   hello(ws, { playerId, name }) {
     if (typeof playerId !== 'string' || !playerId) return;
     sessions.set(ws, playerId);
