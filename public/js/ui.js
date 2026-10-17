@@ -5,6 +5,7 @@ const elements = {
   title: document.getElementById('title'),
   solved: document.getElementById('solved'),
   players: document.getElementById('players'),
+  history: document.getElementById('history'),
   toast: document.getElementById('toast'),
 };
 
@@ -41,6 +42,19 @@ export function renderPlayers(players) {
     return item;
   });
   elements.players.replaceChildren(...items);
+}
+
+export function renderHistory(history) {
+  const items = history.map(({ title, by }) => {
+    const item = document.createElement('li');
+    const titleEl = document.createElement('span');
+    titleEl.textContent = title;
+    const byEl = document.createElement('b');
+    byEl.textContent = by ?? 'Аноним';
+    item.append(titleEl, byEl);
+    return item;
+  });
+  elements.history.replaceChildren(...items);
 }
 
 export function showToast(text) {

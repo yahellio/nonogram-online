@@ -73,6 +73,10 @@ const messageHandlers = {
   players({ players }) {
     ui.renderPlayers(players);
   },
+
+  history({ history }) {
+    ui.renderHistory(history);
+  },
 };
 
 function handleMessage(message) {

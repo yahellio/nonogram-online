@@ -36,6 +36,7 @@ const handlers = {
     sessions.set(ws, playerId);
     game.setPlayer(playerId, name);
     send(ws, { type: 'state', game: game.view() });
+    send(ws, { type: 'history', history: game.history });
     broadcastPlayers();
     persist();
   },
@@ -53,6 +54,7 @@ const handlers = {
     }
 
     broadcast({ type: 'cell', moveId: move.id, index: move.index, cell: result.cell, solved: game.solved });
+    if (game.solved) broadcast({ type: 'history', history: game.history });
     broadcastPlayers();
     persist();
   },

@@ -3,12 +3,14 @@ import { PUZZLES } from './puzzles.js';
 
 const VALUES = new Set([EMPTY, FILLED, CROSS]);
 const MAX_NAME_LENGTH = 20;
+const HISTORY_SIZE = 10;
 
 const sameClues = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 export class Game {
-  constructor({ round = 0, cells = null, solved = false, players = {} } = {}) {
+  constructor({ round = 0, cells = null, solved = false, players = {}, history = [] } = {}) {
     this.players = players;
+    this.history = history;
     this.#startRound(round, cells, solved);
   }
 
@@ -39,6 +41,7 @@ export class Game {
 
     Object.assign(cell, { value, version: cell.version + 1, by: playerId });
     this.solved = this.#isSolved();
+    if (this.solved) this.#recordWin(playerId);
     return { accepted: true, cell: this.publicCell(cell) };
   }
 
@@ -46,6 +49,11 @@ export class Game {
     if (!this.solved) return false;
     this.#startRound(this.round + 1);
     return true;
+  }
+
+  #recordWin(playerId) {
+    const win = { title: this.puzzle.title, by: this.players[playerId] ?? null };
+    this.history = [win, ...this.history].slice(0, HISTORY_SIZE);
   }
 
   #isSolved() {
@@ -84,6 +92,6 @@ export class Game {
   }
 
   toJSON() {
-    return { round: this.round, cells: this.cells, solved: this.solved, players: this.players };
+    return { round: this.round, cells: this.cells, solved: this.solved, players: this.players, history: this.history };
   }
 }

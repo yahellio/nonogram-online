@@ -45,11 +45,13 @@ test('ignores invalid moves', () => {
 
 test('detects a solved puzzle and starts the next round', () => {
   const game = new Game();
+  game.setPlayer('a', 'Alice');
   game.puzzle.grid.flat().forEach((filled, i) => {
     if (filled) game.applyMove('a', move(i, FILLED, 0));
   });
 
   assert.equal(game.solved, true);
+  assert.deepEqual(game.history, [{ title: PUZZLES[0].title, by: 'Alice' }]);
   assert.equal(game.nextRound(), true);
   assert.equal(game.round, 1);
   assert.equal(game.solved, false);
